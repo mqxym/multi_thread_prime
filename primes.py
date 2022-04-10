@@ -11,15 +11,26 @@ if lower > upper:
 if threads > 64 or threads < 1:
     sys.exit("Thread counter wrong")
 
-print("Prime numbers between", lower, "and", upper, "are:")
+if (lower < 0):
+    sys.exit("Number can't be lover than 0")
 
 
- 
-for num in range(lower, upper + 1):
-   # all prime numbers are greater than 1
-   if num > 1:
-       for i in range(2, num):
-           if (num % i) == 0:
-               break
-       else:
-           print(num)
+def main():
+    print("Prime numbers between", lower, "and", upper, "are:")
+    checkPrimes(lower, upper)
+    
+
+
+def checkPrimes(lower, upper):
+    for num in range(lower, upper + 1):
+        # all prime numbers are greater than 1
+        if num > 1:
+            for i in range(2, num):
+                if (num % i) == 0:
+                    break
+            else:
+                print(num)
+
+
+if __name__ == "__main__":
+    main()
