@@ -3,8 +3,9 @@ import copy
 from threading import Thread
 
 #Idea: write output to file
-#Idea create a satus 
-#use a logarigthmic scale for thread creation
+#Idea create a status for progression
+#build an array where the values are high,low,high,low
+# sort that array
 
 
 lower = 10000
