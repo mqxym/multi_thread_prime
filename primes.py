@@ -1,12 +1,7 @@
+from concurrent.futures import thread
 import sys
-import copy
 from threading import Thread
-
-#Idea: write output to file
-#Idea create a status for progression
-#build an array where the values are high,low,high,low
-# sort that array
-
+import lib 
 
 lower = 10000
 upper = 20000
@@ -27,60 +22,42 @@ def testInput ():
     if (lower <= 0):
         sys.exit("Number can't be lover than 0")
 
-def swap(arr, pos1, pos2):
-    tmp = arr[pos1]
-    arr[pos1] = arr[pos2]
-    arr[pos2] = tmp
-    return arr
- 
-def quicksort(arr):
-    p = arr[len(arr)-1] # p ist letzes Element im Array
-    z = 0 #Zähler für Position im Array
-    for i in range(len(arr)):
-        # print(arr[i], p, z)
-        if arr[i] <= p:
-            arr = swap(arr, i, z)
-            z = z+1     
-    
-    arr1 = arr[0:z-1] # Erster Teil des Arrays ohne p
-    arr2 = arr[z:len(arr)] #Zweiter Teil des Arrays ohne p
-    if len(arr1) > 1:
-        arr1 = quicksort(arr1)
-    if len(arr2) > 1:
-        arr2 = quicksort(arr2)
-        
-    # Sortiertes Array zusammensetzen aus arr1, p, arr2
-    arr0 = copy.deepcopy(arr1)
-    arr0.append(p)
-    arr0.extend(arr2)
-    return(arr0)
-    
 
-def checkPrimes(lower, upper, threadID):
-    print("Thread start ", lower, " to ", upper," ThreadID: ", threadID, "\n")
-    for num in range(lower, upper + 1):  
+def isPrime (num):
+# all prime numbers are greater than 1
+    if num > 1:
+        for i in range(2, num):
+            if (num % i) == 0:
+                break
+        else:
+            #print("Prime: ",num)
+            results.append(num)
+
+
+def checkPrimes(array, start, end, threadID):
+    print("Thread start ID: ", threadID, "\n")
+    for i in range(start,end):  
+        if threadID == 0:
+            print(i,"/",end)
         # all prime numbers are greater than 1
-        if num > 1:
-            for i in range(2, num):
-                if (num % i) == 0:
-                    break
-            else:
-                #print("Prime: ",num)
-                results.append(num)
+        isPrime(array[i])
 
-    #print("Thread ",threadID ," finished.", )
+    print("Thread ",threadID ," finished.", )
+
 
 def main():
-    testInput()
-    difference = round((upper - lower)/threadCount)
 
     print("Prime numbers between", lower, "and", upper, "are:")
 
-    for i in range(0, threadCount): 
-        threadLow = lower + (difference*i)
-        threadUp = lower + (difference * (i+1))
-        print("Up, ", threadUp, " Low ", threadLow )
-        thread = Thread(target=checkPrimes, args=(threadLow,threadUp,i,))
+    array = lib.shuffleArray(lower, upper)
+    difference = round((upper - lower)/threadCount)
+
+    for i in range(threadCount): 
+        threadLow= difference*i
+        threadUp = difference * (i+1)
+
+        thread = Thread(target=checkPrimes, args=(array,threadLow, threadUp,i))
+        
         threads.append(thread)
 
     for thread in threads:
@@ -90,7 +67,7 @@ def main():
         thread.join()
 
     print("Calculating finished")
-    print(quicksort(results))
+    print(lib.quicksort(results))
 
 if __name__ == "__main__":
     main()
