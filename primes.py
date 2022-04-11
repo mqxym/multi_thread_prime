@@ -1,10 +1,14 @@
 import sys
 from threading import Thread
 
-lower = 1
-upper = 400
+#Idea: write output to file
+#Idea create a satus 
 
-threads_count = 7
+
+lower = 5000000
+upper = 6000000
+
+threadCount = 7
 
 threads = []
 
@@ -13,15 +17,15 @@ def testInput ():
     if lower > upper:
         sys.exit("lower number is higher than upper number")
 
-    if threads_count > 64 or threads_count < 1:
+    if threadCount > 64 or threadCount < 1:
         sys.exit("Thread counter wrong")
 
     if (lower <= 0):
         sys.exit("Number can't be lover than 0")
 
 def checkPrimes(lower, upper, threadID):
-    print("Thread from ", lower, " to ", upper," ThreadID: ", threadID, "\n")
-    for num in range(lower, upper + 1):
+    print("Thread start ", lower, " to ", upper," ThreadID: ", threadID, "\n")
+    for num in range(lower, upper + 1):  
         # all prime numbers are greater than 1
         if num > 1:
             for i in range(2, num):
@@ -34,11 +38,11 @@ def checkPrimes(lower, upper, threadID):
 
 def main():
     testInput()
-    difference = round((upper - lower)/threads_count)
+    difference = round((upper - lower)/threadCount)
 
     print("Prime numbers between", lower, "and", upper, "are:")
 
-    for i in range(0, threads_count+1): 
+    for i in range(0, threadCount+1): 
         threadLow = lower + (difference*i)
         threadUp = lower + (difference * (i+1))
         print("Up, ", threadUp, " Low ", threadLow )
