@@ -4,10 +4,11 @@ from threading import Thread
 
 #Idea: write output to file
 #Idea create a satus 
+#use a logarigthmic scale for thread creation
 
 
-lower = 1
-upper = 600
+lower = 10000
+upper = 20000
 
 threadCount = 7
 
