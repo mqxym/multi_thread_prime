@@ -74,7 +74,7 @@ def main():
 
     print("Prime numbers between", lower, "and", upper, "are:")
 
-    for i in range(0, threadCount+1): 
+    for i in range(0, threadCount): 
         threadLow = lower + (difference*i)
         threadUp = lower + (difference * (i+1))
         print("Up, ", threadUp, " Low ", threadLow )
