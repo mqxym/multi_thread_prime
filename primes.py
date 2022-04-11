@@ -1,12 +1,11 @@
-from concurrent.futures import thread
 import sys
 from threading import Thread
 import lib 
 
-lower = 1000000
-upper = 1000500
+lower = 0
+upper = 777
 
-threadCount = 7
+threadCount = 4
 
 threads = []
 results = []
@@ -38,7 +37,7 @@ def checkPrimes(array, start, end, threadID):
     #print("Thread start ID: ", threadID, "\n")
     for i in range(start,end):  
         if threadID == 0:
-            print(round((i/end)*100), "%")
+            print((i/end)*100, "%")
         # all prime numbers are greater than 1
         isPrime(array[i])
 
@@ -67,7 +66,11 @@ def main():
         thread.join()
 
     print("Calculating finished")
-    print(lib.quicksort(results))
+    output = lib.quicksort(results)
+    with open('out.txt', 'w') as f:
+        for prime in output: 
+            write = str(prime) + "\n"
+            f.write(write)
 
 if __name__ == "__main__":
     main()
