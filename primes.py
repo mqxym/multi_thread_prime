@@ -3,8 +3,8 @@ import sys
 from threading import Thread
 import lib 
 
-lower = 10000
-upper = 20000
+lower = 1000000
+upper = 1000500
 
 threadCount = 7
 
@@ -35,14 +35,14 @@ def isPrime (num):
 
 
 def checkPrimes(array, start, end, threadID):
-    print("Thread start ID: ", threadID, "\n")
+    #print("Thread start ID: ", threadID, "\n")
     for i in range(start,end):  
         if threadID == 0:
-            print(i,"/",end)
+            print(round((i/end)*100), "%")
         # all prime numbers are greater than 1
         isPrime(array[i])
 
-    print("Thread ",threadID ," finished.", )
+    #print("Thread ",threadID ," finished.", )
 
 
 def main():
