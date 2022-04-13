@@ -3,8 +3,8 @@ from threading import Thread
 import lib 
 import hashlib
 
-lower = 0
-upper = 777
+lower = 8888888
+upper = 9999999
 limit = 1000 #How many primes you want to calculate
 
 data = "" #Change Data when you want primes based on data
@@ -15,7 +15,7 @@ if (len(sys.argv)==2):
 
 threadCount = 4
 
-writeToFile = 1
+writeToFile = 0
 outputToScreen = 1
 
 if (data):
@@ -24,7 +24,7 @@ if (data):
     hex = hex[1:computingPower]
     lower = int(hex,16)
     upper = lower+10000
-    limit = 3
+    limit = 2
     threadCount = 2
 
 

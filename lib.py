@@ -9,7 +9,7 @@ def swap(arr, pos1, pos2):
  
 def quicksort(arr):
     p = arr[len(arr)-1] # p ist letzes Element im Array
-    z = 0 #Zähler für Position im Array
+    z = 0 #Zähler für position im Array
     for i in range(len(arr)):
         # print(arr[i], p, z)
         if arr[i] <= p:
