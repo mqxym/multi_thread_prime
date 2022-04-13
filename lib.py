@@ -1,10 +1,6 @@
 #lib.py
 import copy
 
-def splitList(a_list):
-    half = len(a_list)//2
-    return a_list[:half]
-
 def swap(arr, pos1, pos2):
     tmp = arr[pos1]
     arr[pos1] = arr[pos2]
