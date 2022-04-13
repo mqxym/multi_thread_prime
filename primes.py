@@ -7,7 +7,7 @@ lower = 0
 upper = 777
 limit = 1000 #How many primes you want to calculate
 
-data = "North Korea" #Change Data when you want primes based on data
+data = "" #Change Data when you want primes based on data
 computingPower = 7 #Every increase is increased by *16
 
 if (len(sys.argv)==2):
