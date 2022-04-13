@@ -25,7 +25,7 @@ if (data):
     hex = hash.hexdigest()
     hex = hex[1:computingPower]
     lower = int(hex,16)
-    upper = lower+1000
+    upper = lower+10000
     limit = 3
     threadCount = 2
 
