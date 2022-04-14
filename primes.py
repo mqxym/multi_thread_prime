@@ -80,7 +80,7 @@ def main():
         c.upper = c.lower+10000
         c.threadCount = 1
         c.limit = 1
-
+    
     threader(c.lower, c.upper, c.limit, c.threadCount)
 
     output = sorted(results)
@@ -95,6 +95,9 @@ def main():
     
     if(c.mode == 0 or c.mode == 2 or c.mode == 3):
         sys.exit()
+
+    if(c.mode == 1 and c.doLoop == 1):
+        main()
 
 if __name__ == "__main__":
     main()

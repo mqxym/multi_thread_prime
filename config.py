@@ -16,6 +16,8 @@ class config:
     mode = 1  
     computingPower = 7 #Calculation power increases by 16
 
+    doLoop = 1
+
     logOutput = 0
     repeatInput = 1
 
@@ -50,17 +52,19 @@ class config:
         if self.computingPower > 8 or self.computingPower < 1:
             print("Computing power must be between 1 and 8")
             return False
-        if self.logOutput != 1 or self.logOutput !=0:
+        if self.logOutput != 1 and self.logOutput !=0:
             print("Logmode must be 1 or 0")
     
     def setConfig (self,input):
         if input[0] == ".":
+            if input == ".exit":
+                sys.exit()
+            if input == ".help":
+                self.help()
             command,value = input.split(" ")
             match command:
                 case ".threads":
                     self.threadCount = int(value)
-                case ".exit":
-                    sys.exit()
                 case ".cp":
                     self.computingPower = int(value)
                 case ".up":
@@ -69,6 +73,5 @@ class config:
                     self.lower = int(value)
                 case ".log":
                     self.logOutput = int (value)
-                
         else:
             self.data = input
