@@ -1,41 +1,23 @@
 import sys
-from threading import Thread
-from tkinter import W
+import threading
 import lib 
 import hashlib
 
-lower = 8888888
-upper = 9999999
-limit = 100 #How many primes you want to calculate
+lower = 0
+upper = 20000
+limit = 1000 #How many primes you want to calculate
 
 data = "" #Change Data when you want primes based on data
-computingPower = 7 #Every increase is increased by *16
-
-if (len(sys.argv)==2):
-    data = sys.argv[1]
+computingPower = 8 #Every increase is increased by *16
 
 enterData = 0
-
-if (enterData):
-    print("Enter Data as Input")
-    data = input()
+repeatInput = 1 #If you want to keep inputing data
 
 threadCount = 4
 
 writeToFile = 0
 outputToScreen = 1
 
-if (data):
-    hash = hashlib.md5(data.encode())
-    hex = hash.hexdigest()
-    hex = hex[1:computingPower]
-    lower = int(hex,16)
-    upper = lower+10000
-    limit = 1
-
-
-
-threads = []
 results = []
 
 
@@ -49,63 +31,93 @@ def testInput ():
     if (lower <= 0):
         sys.exit("Number can't be lover than 0")
 
-
-def isPrime (num):
-# all prime numbers are greater than 1
-    if num > 1:
-        for i in range(2, num):
-            if (num % i) == 0:
-                break
-        else:
-            #print("Prime: ",num)
-                results.append(num)
-
+def shuffleArray(lower, upper):
+    array = []
+    targetCount = round((upper-lower)/2)
+    
+    for i in range(targetCount):
+        array.append(lower+i)
+        array.append(upper-i)
+    
+    return array
 
 def checkPrimes(array, start, end, threadID):
-    print("Thread start ID: ", threadID, "\n")
+    print("Thread start ID: ", threadID, " starts calculating")
+    global results,limit
     for i in range(start,end):  
-        if threadID == 0:
-            print((i/end)*100, "%")
         # all prime numbers are greater than 1
         if(len(results) < limit):
-            isPrime(array[i])
+            checkPrime = array[i]
+            #Checks if Prime
+            for i in range(2, checkPrime):
+                if (checkPrime % i) == 0:
+                    break
+            else:
+                results.append(checkPrime)
         else:
             print("Thread ",threadID ," finished.", )
             return
 
 
 def main():
+    global repeatInput
 
-    print("Prime numbers between", lower, "and", upper, "are:")
+    while(repeatInput):
 
-    array = lib.shuffleArray(lower, upper)
-    difference = round((upper - lower)/threadCount)
+        threads = []
+        global data,lower,upper,threadCount,limit,results
 
-    for i in range(threadCount): 
-        threadLow= difference*i
-        threadUp = difference * (i+1)
+        if (enterData):
+            print("Enter Data as Input or type exit")
+            data = input()
+            if (data == "exit"):
+                sys.exit()
+            results = []
+        else:
+            repeatInput = 0
 
-        thread = Thread(target=checkPrimes, args=(array,threadLow, threadUp,i))
-        
-        threads.append(thread)
+        if (len(sys.argv)==2):
+            data = sys.argv[1]
 
-    for thread in threads:
-        thread.start()
+        if (data):
+            hash = hashlib.md5(data.encode())
+            hex = hash.hexdigest()
+            hex = hex[1:computingPower]
+            lower = int(hex,16)
+            upper = lower+10000
+            threadCount = 1
+            limit = 1
 
-    for thread in threads:
-        thread.join()
+        print("Prime numbers between", lower, "and", upper, "are:")
 
-    print("Calculating finished")
-    output = lib.quicksort(results)
+        array = shuffleArray(lower, upper)
+        difference = round((upper - lower)/threadCount)
 
-    if (outputToScreen):
-        print (output)
+        for i in range(threadCount): 
+            threadLow= difference*i
+            threadUp = difference * (i+1)
 
-    if (writeToFile):
-        with open('out.txt', 'w') as f:
-            for prime in output: 
-                write = str(prime) + "\n"
-                f.write(write)
+            thread = threading.Thread(target=checkPrimes, args=(array,threadLow, threadUp,i))
+            
+            threads.append(thread)
+
+        for thread in threads:
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        print("Calculating finished")
+        output = sorted(results)
+
+        if (outputToScreen):
+            print (output)
+
+        if (writeToFile):
+            with open('out.txt', 'w') as f:
+                for prime in output: 
+                    write = str(prime) + "\n"
+                    f.write(write)
 
 if __name__ == "__main__":
     main()
