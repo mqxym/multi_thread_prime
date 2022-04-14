@@ -1,6 +1,5 @@
 import sys
 import threading
-import lib 
 import hashlib
 
 lower = 0
