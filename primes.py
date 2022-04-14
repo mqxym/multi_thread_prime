@@ -1,17 +1,24 @@
 import sys
 from threading import Thread
+from tkinter import W
 import lib 
 import hashlib
 
 lower = 8888888
 upper = 9999999
-limit = 1000 #How many primes you want to calculate
+limit = 100 #How many primes you want to calculate
 
 data = "" #Change Data when you want primes based on data
 computingPower = 7 #Every increase is increased by *16
 
 if (len(sys.argv)==2):
     data = sys.argv[1]
+
+enterData = 0
+
+if (enterData):
+    print("Enter Data as Input")
+    data = input()
 
 threadCount = 4
 
@@ -24,8 +31,7 @@ if (data):
     hex = hex[1:computingPower]
     lower = int(hex,16)
     upper = lower+10000
-    limit = 2
-    threadCount = 2
+    limit = 1
 
 
 
@@ -46,24 +52,26 @@ def testInput ():
 
 def isPrime (num):
 # all prime numbers are greater than 1
-    if num > 1 and len(results) < limit:
+    if num > 1:
         for i in range(2, num):
             if (num % i) == 0:
                 break
         else:
             #print("Prime: ",num)
-            results.append(num)
+                results.append(num)
 
 
 def checkPrimes(array, start, end, threadID):
-    #print("Thread start ID: ", threadID, "\n")
+    print("Thread start ID: ", threadID, "\n")
     for i in range(start,end):  
-        #if threadID == 0:
-        #    print((i/end)*100, "%")
+        if threadID == 0:
+            print((i/end)*100, "%")
         # all prime numbers are greater than 1
-        isPrime(array[i])
-
-    #print("Thread ",threadID ," finished.", )
+        if(len(results) < limit):
+            isPrime(array[i])
+        else:
+            print("Thread ",threadID ," finished.", )
+            return
 
 
 def main():
