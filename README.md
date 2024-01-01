@@ -1,3 +1,6 @@
 # Calculate Primes Multiple Threads
-- Change the thread count according to your machine
-- Change the data= if you want to generate Primes based on data
+## version_a
+- Command line interface with multiple options
+## version_b
+- Calculate primes with multiple threads
+- Calculate a prime number based on text input
